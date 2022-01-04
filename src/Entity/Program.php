@@ -30,9 +30,9 @@ class Program
     #[ORM\Column(type: 'integer')]
     private $year;
 
-    #[ORM\ManyToOne(targetEntity: category::class, inversedBy: 'programs')]
+    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'programs')]
     #[ORM\JoinColumn(nullable: false)]
-    private $category_id;
+    private ?Category $category;
 
     #[ORM\OneToMany(mappedBy: 'program_id', targetEntity: Season::class, orphanRemoval: true)]
     private $seasons;
@@ -111,14 +111,14 @@ class Program
         return $this;
     }
 
-    public function getCategoryId(): ?category
+    public function getCategory(): ?Category
     {
-        return $this->category_id;
+        return $this->category;
     }
 
-    public function setCategoryId(?category $category_id): self
+    public function setCategory(?Category $category): self
     {
-        $this->category_id = $category_id;
+        $this->category = $category;
 
         return $this;
     }
