@@ -34,7 +34,7 @@ class Program
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category;
 
-    #[ORM\OneToMany(mappedBy: 'program_id', targetEntity: Season::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'program', targetEntity: Season::class, orphanRemoval: true)]
     private $seasons;
 
     #[ORM\OneToMany(mappedBy: 'programs', targetEntity: Actor::class)]

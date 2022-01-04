@@ -15,9 +15,9 @@ class Season
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\ManyToOne(targetEntity: program::class, inversedBy: 'seasons')]
+    #[ORM\ManyToOne(targetEntity: Program::class, inversedBy: 'seasons')]
     #[ORM\JoinColumn(nullable: false)]
-    private $program_id;
+    private ?Program $program;
 
     #[ORM\Column(type: 'integer')]
     private $number;
@@ -41,14 +41,14 @@ class Season
         return $this->id;
     }
 
-    public function getProgramId(): ?program
+    public function getProgram(): ?Program
     {
-        return $this->program_id;
+        return $this->program;
     }
 
-    public function setProgramId(?program $program_id): self
+    public function setProgram(?Program $program): self
     {
-        $this->program_id = $program_id;
+        $this->program = $program;
 
         return $this;
     }
