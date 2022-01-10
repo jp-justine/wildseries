@@ -28,17 +28,12 @@ class Season
     #[ORM\Column(type: 'text')]
     private $description;
 
-    #[ORM\OneToMany(mappedBy: 'season_id', targetEntity: Episode::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'season', targetEntity: Episode::class, orphanRemoval: true)]
     private $episodes;
 
     public function __construct()
     {
         $this->episodes = new ArrayCollection();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getProgram(): ?Program
@@ -87,6 +82,11 @@ class Season
         $this->description = $description;
 
         return $this;
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 
     /**

@@ -15,16 +15,16 @@ class Comment
 
     #[ORM\ManyToOne(targetEntity: user::class, inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
-    private $user_id;
+    private $user;
 
     #[ORM\ManyToOne(targetEntity: episode::class, inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
-    private $episode_id;
+    private $episode;
 
     #[ORM\Column(type: 'text')]
     private $comment;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
+    #[ORM\Column(type: 'integer')]
     private $rate;
 
     public function getId(): ?int
@@ -32,26 +32,26 @@ class Comment
         return $this->id;
     }
 
-    public function getUserId(): ?user
+    public function getUser(): ?User
     {
-        return $this->user_id;
+        return $this->user;
     }
 
-    public function setUserId(?user $user_id): self
+    public function setUser(?User $user): self
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
 
         return $this;
     }
 
-    public function getEpisodeId(): ?episode
+    public function getEpisode(): ?Episode
     {
         return $this->episode_id;
     }
 
-    public function setEpisodeId(?episode $episode_id): self
+    public function setEpisode(?Episode $episode): self
     {
-        $this->episode_id = $episode_id;
+        $this->episode = $episode;
 
         return $this;
     }

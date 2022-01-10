@@ -15,9 +15,9 @@ class Episode
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\ManyToOne(targetEntity: season::class, inversedBy: 'episodes')]
+    #[ORM\ManyToOne(targetEntity: Season::class, inversedBy: 'episodes')]
     #[ORM\JoinColumn(nullable: false)]
-    private $season_id;
+    private $season;
 
     #[ORM\Column(type: 'string', length: 255)]
     private $title;
@@ -28,10 +28,10 @@ class Episode
     #[ORM\Column(type: 'text')]
     private $synopsis;
 
-    #[ORM\OneToMany(mappedBy: 'episode_id', targetEntity: WatchList::class)]
+    #[ORM\OneToMany(mappedBy: 'episode', targetEntity: WatchList::class)]
     private $watchLists;
 
-    #[ORM\OneToMany(mappedBy: 'episode_id', targetEntity: Comment::class)]
+    #[ORM\OneToMany(mappedBy: 'episode', targetEntity: Comment::class)]
     private $comments;
 
     public function __construct()
@@ -45,14 +45,14 @@ class Episode
         return $this->id;
     }
 
-    public function getSeasonId(): ?season
+    public function getSeason(): ?Season
     {
-        return $this->season_id;
+        return $this->season;
     }
 
-    public function setSeasonId(?season $season_id): self
+    public function setSeason(?Season $season): self
     {
-        $this->season_id = $season_id;
+        $this->season = $season;
 
         return $this;
     }
@@ -105,7 +105,7 @@ class Episode
     {
         if (!$this->watchLists->contains($watchList)) {
             $this->watchLists[] = $watchList;
-            $watchList->setEpisodeId($this);
+            $watchList->setEpisode($this);
         }
 
         return $this;
@@ -115,8 +115,8 @@ class Episode
     {
         if ($this->watchLists->removeElement($watchList)) {
             // set the owning side to null (unless already changed)
-            if ($watchList->getEpisodeId() === $this) {
-                $watchList->setEpisodeId(null);
+            if ($watchList->getEpisode() === $this) {
+                $watchList->setEpisode(null);
             }
         }
 
@@ -135,7 +135,7 @@ class Episode
     {
         if (!$this->comments->contains($comment)) {
             $this->comments[] = $comment;
-            $comment->setEpisodeId($this);
+            $comment->setEpisode($this);
         }
 
         return $this;
@@ -145,8 +145,8 @@ class Episode
     {
         if ($this->comments->removeElement($comment)) {
             // set the owning side to null (unless already changed)
-            if ($comment->getEpisodeId() === $this) {
-                $comment->setEpisodeId(null);
+            if ($comment->getEpisode() === $this) {
+                $comment->setEpisode(null);
             }
         }
 

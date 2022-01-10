@@ -3,19 +3,35 @@
 {% block title %}All programs{% endblock %}
 
 {% block body %}
-    <h1>Toutes les séries de la table program : </h1>
+    {# <h1>Toutes les séries de la table program : </h1>
     {% for program in programs %}
         <div>
             <h2>{{ loop.index }} / {{ program.title }} - Catégorie : {{ program.category.name }}</h2>
-            <p>{{ program.summary }}</p>
+            <p>{{ program.synopsis }}</p>
             {# Lien vers la fiche de la série : #}
-            <a href="{{ path("program_show", { id: program.id }) }}">Voir la fiche</a>
+            {# <a href="{{ path("program_show", { id: program.id }) }}">Voir la fiche</a>
         </div>
     {% else %}
         Aucune série trouvée.
-    {% endfor %}
+    {% endfor %} #} 
 
-    <a href="{{ path('app_index') }}">
+     <section class="program_index_container">
+        {% for program in programs %}
+            <figure class="program_index_figure">
+            <a class= "link" href="/">Voir la fiche</a><br />
+            <img src="{{program.poster}}" alt="{{ program.title }} poster">
+                <figcaption class="program_index_figcaption">
+                    <p>{{ program.title }}</p>
+                    <p>Catégorie : {{ program.category.name }}</p>
+                </figcaption>
+                <p class="program_index_p">{{ program.synopsis }}</p>
+            </figure>
+        {% else %}
+            <p>Aucune série trouvée.</p>
+        {% endfor %}
+    </section>
+
+    <a class= "link" href="{{ path('app_index') }}">
         Retour à l'accueil
     </a>
 {% endblock %}

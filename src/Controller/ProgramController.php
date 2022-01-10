@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Program;
 use App\Repository\ProgramRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -30,7 +31,7 @@ class ProgramController extends AbstractController
      * @Route("/new", name="new")
      */
 
-    public function new(Request $request, EntityManagerInterface $entityManager, Slugify $slugify) : Response
+    public function new(Request $request, EntityManagerInterface $entityManager) : Response
     {
         // Create a new Category Object
         $program = new Program();

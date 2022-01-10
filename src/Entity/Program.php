@@ -18,17 +18,11 @@ class Program
     #[ORM\Column(type: 'string', length: 255)]
     private $title;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 1800)]
     private $synopsis;
 
     #[ORM\Column(type: 'string', length: 255)]
     private $poster;
-
-    #[ORM\Column(type: 'string', length: 255)]
-    private $country;
-
-    #[ORM\Column(type: 'integer')]
-    private $year;
 
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'programs')]
     #[ORM\JoinColumn(nullable: false)]
@@ -37,18 +31,13 @@ class Program
     #[ORM\OneToMany(mappedBy: 'program', targetEntity: Season::class, orphanRemoval: true)]
     private $seasons;
 
-    #[ORM\OneToMany(mappedBy: 'programs', targetEntity: Actor::class)]
+    #[ORM\ManyToMany(targetEntity: Actor::class, mappedBy: 'programs')]
     private $actors;
 
     public function __construct()
     {
         $this->seasons = new ArrayCollection();
         $this->actors = new ArrayCollection();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getTitle(): ?string
@@ -83,30 +72,6 @@ class Program
     public function setPoster(string $poster): self
     {
         $this->poster = $poster;
-
-        return $this;
-    }
-
-    public function getCountry(): ?string
-    {
-        return $this->country;
-    }
-
-    public function setCountry(string $country): self
-    {
-        $this->country = $country;
-
-        return $this;
-    }
-
-    public function getYear(): ?int
-    {
-        return $this->year;
-    }
-
-    public function setYear(int $year): self
-    {
-        $this->year = $year;
 
         return $this;
     }
@@ -152,6 +117,11 @@ class Program
 
         return $this;
     }
+    
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
     /**
      * @return Collection|Actor[]
@@ -165,7 +135,7 @@ class Program
     {
         if (!$this->actors->contains($actor)) {
             $this->actors[] = $actor;
-            $actor->setPrograms($this);
+            $actor->addProgram($this);
         }
 
         return $this;
@@ -174,12 +144,11 @@ class Program
     public function removeActor(Actor $actor): self
     {
         if ($this->actors->removeElement($actor)) {
-            // set the owning side to null (unless already changed)
-            if ($actor->getPrograms() === $this) {
-                $actor->setPrograms(null);
-            }
+            $actor->removeProgram($this);
         }
 
         return $this;
     }
+
+    
 }

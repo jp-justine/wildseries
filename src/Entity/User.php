@@ -24,14 +24,14 @@ class User
     #[ORM\Column(type: 'string', length: 255)]
     private $password;
 
-    #[ORM\Column(type: 'text')]
-    private $bio;
-
-    #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: WatchList::class)]
+    #[ORM\ManyToMany(mappedBy: 'user', targetEntity: WatchList::class)]
     private $watchLists;
 
-    #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Comment::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Comment::class)]
     private $comments;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Program::class)]
+    private $program;
 
     public function __construct()
     {
@@ -76,18 +76,6 @@ class User
     public function setPassword(string $password): self
     {
         $this->password = $password;
-
-        return $this;
-    }
-
-    public function getBio(): ?string
-    {
-        return $this->bio;
-    }
-
-    public function setBio(string $bio): self
-    {
-        $this->bio = $bio;
 
         return $this;
     }
@@ -146,6 +134,36 @@ class User
             // set the owning side to null (unless already changed)
             if ($comment->getUserId() === $this) {
                 $comment->setUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
+        /**
+     * @return Collection|Program[]
+     */
+    public function getPrograms(): Collection
+    {
+        return $this->programs;
+    }
+
+    public function addProgram(Program $program): self
+    {
+        if (!$this->programs->contains($program)) {
+            $this->programs[] = $program;
+            $program->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProgram(Program $program): self
+    {
+        if ($this->programs->removeElement($program)) {
+            // set the owning side to null (unless already changed)
+            if ($program->getOwner() === $this) {
+                $program->setOwner(null);
             }
         }
 

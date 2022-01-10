@@ -1,10 +1,15 @@
-$primary: #d6d6b3
-;
+$primary: #79787a;
 $danger: #ff4136;
+$secondary: #000000;
+$beige: #e4d2bb;
 
 @import "~bootstrap/scss/bootstrap";
 
 body {
     background-color: $primary;
-    color: black;
+    color: $secondary;
+}
+.link {
+    color: $beige;
+    text-decoration: none;
 }
