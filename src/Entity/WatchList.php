@@ -13,7 +13,7 @@ class WatchList
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\ManyToOne(targetEntity: user::class, inversedBy: 'watchLists')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'watchLists')]
     #[ORM\JoinColumn(nullable: false)]
     private $user_id;
 

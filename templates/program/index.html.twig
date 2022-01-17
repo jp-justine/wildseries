@@ -1,37 +1,39 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}All programs{% endblock %}
+{% block title %}Toutes les series{% endblock %}
 
 {% block body %}
-    {# <h1>Toutes les séries de la table program : </h1>
-    {% for program in programs %}
-        <div>
-            <h2>{{ loop.index }} / {{ program.title }} - Catégorie : {{ program.category.name }}</h2>
-            <p>{{ program.synopsis }}</p>
-            {# Lien vers la fiche de la série : #}
-            {# <a href="{{ path("program_show", { id: program.id }) }}">Voir la fiche</a>
-        </div>
-    {% else %}
-        Aucune série trouvée.
-    {% endfor %} #} 
+    <h1>Toutes les series</h1>
 
-     <section class="program_index_container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titre</th>
+                <th>Synopsis</th>
+                <th>Poster</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
         {% for program in programs %}
-            <figure class="program_index_figure">
-            <a class= "link" href="/">Voir la fiche</a><br />
-            <img src="{{program.poster}}" alt="{{ program.title }} poster">
-                <figcaption class="program_index_figcaption">
-                    <p>{{ program.title }}</p>
-                    <p>Catégorie : {{ program.category.name }}</p>
-                </figcaption>
-                <p class="program_index_p">{{ program.synopsis }}</p>
-            </figure>
+            <tr>
+                <td>{{ program.id }}</td>
+                <td>{{ program.title }}</td>
+                <td>{{ program.synopsis }}</td>
+                <td><img src="{{program.poster}}" alt="{{ program.title }} poster"></td>
+                <td>
+                    <a href="{{ path('program_show', {'id': program.id}) }}">Plus</a>
+                    <a href="{{ path('program_edit', {'id': program.id}) }}">Editer</a>
+                </td>
+            </tr>
         {% else %}
-            <p>Aucune série trouvée.</p>
+            <tr>
+                <td colspan="5">Pas de series trouvées</td>
+            </tr>
         {% endfor %}
-    </section>
+        </tbody>
+    </table>
 
-    <a class= "link" href="{{ path('app_index') }}">
-        Retour à l'accueil
-    </a>
+    <a href="{{ path('program_new') }}">Ajouter une nouvelle serie</a>
 {% endblock %}
